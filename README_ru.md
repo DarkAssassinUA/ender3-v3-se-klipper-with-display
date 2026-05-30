@@ -1,4 +1,4 @@
-[English](README.md) | [Русский](README_ru.md)
+[English](README.md) | [Р СѓСЃСЃРєРёР№](README_ru.md)
 
 # Ender 3 V3 SE Klipper with Display (Merged Repository)
 
