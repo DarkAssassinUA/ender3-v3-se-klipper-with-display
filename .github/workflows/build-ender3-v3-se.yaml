@@ -1,0 +1,42 @@
+name: Build Ender 3 V3 SE Firmware
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y make gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi python3
+
+    - name: Configure Klipper for Ender 3 V3 SE
+      run: |
+        cat <<EOF > .config
+        CONFIG_LOW_LEVEL_OPTIONS=y
+        CONFIG_MACH_STM32=y
+        CONFIG_MACH_STM32F103=y
+        CONFIG_STM32_FLASH_START_7000=y
+        CONFIG_STM32F103GD_DISABLE_SWD=y
+        CONFIG_STM32_SERIAL_USART1=y
+        EOF
+        make olddefconfig
+
+    - name: Build firmware
+      run: make -j$(nproc)
+
+    - name: Upload Klipper Firmware Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ender3-v3-se-klipper-firmware
+        path: out/klipper.bin
