@@ -56,18 +56,18 @@ jobs:
         echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
         
         cat <<EOF > release_notes.md
-        ### Прошивка Klipper для Ender 3 V3 SE
+        ### Ender 3 V3 SE Klipper Firmware
         
-        **Дата сборки:** ${BUILD_DATE} (UTC+3)
+        **Build Date:** ${BUILD_DATE} (UTC+3)
         
-        **Основано на коммите:** ${COMMIT_HASH}
+        **Based on commit:** ${COMMIT_HASH}
         
-        **Параметры конфигурации сборщика:**
-        - **Архитектура:** STM32 (STM32F103)
-        - **Смещение загрузчика (Bootloader offset):** 28KiB
-        - **Фикс для GD32:** Отключение SWD при запуске (Disable SWD at startup)
-        - **Интерфейс связи:** Serial (на USART1 PA10/PA09)
-        - **Мод экрана:** Serial Bridge включен на USART2
+        **Build Configuration Parameters:**
+        - **Architecture:** STM32 (STM32F103)
+        - **Bootloader offset:** 28KiB
+        - **GD32 fix:** Disable SWD at startup
+        - **Communication interface:** Serial (on USART1 PA10/PA09)
+        - **Screen Mod:** Serial Bridge enabled on USART2
         EOF
 
     - name: Create Release
@@ -75,7 +75,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.TAG_NAME }}
-        name: Сборка прошивки ${{ env.BUILD_DATE }}
+        name: Firmware Build ${{ env.BUILD_DATE }}
         body_path: release_notes.md
         files: out/klipper.bin
         make_latest: true
