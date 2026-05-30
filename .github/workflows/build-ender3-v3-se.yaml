@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout repository
@@ -42,3 +44,38 @@ jobs:
       with:
         name: ender3-v3-se-klipper-firmware
         path: out/klipper.bin
+
+    - name: Prepare Release Info
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      run: |
+        BUILD_DATE=$(TZ='Europe/Moscow' date +'%d.%m.%Y %H:%M:%S')
+        COMMIT_HASH=$(git rev-parse --short HEAD)
+        TAG_NAME="build-${COMMIT_HASH}-$(date +'%s')"
+        
+        echo "BUILD_DATE=${BUILD_DATE}" >> $GITHUB_ENV
+        echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+        
+        cat <<EOF > release_notes.md
+        ### Прошивка Klipper для Ender 3 V3 SE
+        
+        **Дата сборки:** ${BUILD_DATE} (UTC+3)
+        **Основано на коммите:** ${COMMIT_HASH}
+        
+        **Параметры конфигурации сборщика:**
+        - **Архитектура:** STM32 (STM32F103)
+        - **Смещение загрузчика (Bootloader offset):** 28KiB
+        - **Фикс для GD32:** Отключение SWD при запуске (Disable SWD at startup)
+        - **Интерфейс связи:** Serial (на USART1 PA10/PA09)
+        - **Мод экрана:** Serial Bridge включен на USART2
+        EOF
+
+    - name: Create Release
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        name: Сборка прошивки ${{ env.BUILD_DATE }}
+        body_path: release_notes.md
+        files: out/klipper.bin
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
