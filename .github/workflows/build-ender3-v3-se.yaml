@@ -29,6 +29,8 @@ jobs:
         CONFIG_STM32_FLASH_START_7000=y
         CONFIG_STM32F103GD_DISABLE_SWD=y
         CONFIG_STM32_SERIAL_USART1=y
+        CONFIG_SERIAL_BRIDGE=y
+        CONFIG_ENABLE_SERIAL_BRIDGE_USART2=y
         EOF
         make olddefconfig
 
