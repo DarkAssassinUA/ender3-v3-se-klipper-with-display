@@ -2,7 +2,7 @@
 
 > **ВНИМАНИЕ:** Это объединенный репозиторий, созданный специально для работы оригинального дисплея Ender 3 V3 SE с самой свежей версией Klipper (от 0xD34D).
 > 
-> * **Основа (Klipper):** Форк [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) (Последний коммит: `e5ece995`, Апрель 2026)
+> * **Основа (Klipper):** Форк [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) с обновлениями из оригинального [Klipper3d/klipper](https://github.com/Klipper3d/klipper) (Последний коммит: `b7c0329f1`, Май 2026)
 > * **Мод дисплея:** Портировано из [jpcurti/ender3-v3-se-klipper-with-display](https://github.com/jpcurti/ender3-v3-se-klipper-with-display) (Последний коммит: `72e925e55`, Январь 2026)
 
 ---
