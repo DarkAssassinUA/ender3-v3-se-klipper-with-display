@@ -50,7 +50,7 @@ jobs:
       run: |
         BUILD_DATE=$(TZ='Europe/Moscow' date +'%d.%m.%Y %H:%M:%S')
         COMMIT_HASH=$(git rev-parse --short HEAD)
-        TAG_NAME="build-${COMMIT_HASH}-$(date +'%s')"
+        TAG_NAME="build-$(date +'%Y%m%d%H%M%S')-${COMMIT_HASH}"
         
         echo "BUILD_DATE=${BUILD_DATE}" >> $GITHUB_ENV
         echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
@@ -78,5 +78,6 @@ jobs:
         name: Сборка прошивки ${{ env.BUILD_DATE }}
         body_path: release_notes.md
         files: out/klipper.bin
+        make_latest: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
