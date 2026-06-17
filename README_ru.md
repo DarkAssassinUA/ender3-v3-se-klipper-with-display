@@ -4,8 +4,15 @@
 
 > **ВНИМАНИЕ:** Это объединенный репозиторий, созданный специально для работы оригинального дисплея Ender 3 V3 SE с самой свежей версией Klipper (от 0xD34D).
 > 
-> * **Основа (Klipper):** Форк [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) с обновлениями из оригинального [Klipper3d/klipper](https://github.com/Klipper3d/klipper) (Последний коммит: `b7c0329f1`, Май 2026)
+> * **Основа (Klipper):** Форк [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) с обновлениями из оригинального [Klipper3d/klipper](https://github.com/Klipper3d/klipper) (Последний коммит: `c707dd192`, Июнь 2026)
 > * **Мод дисплея:** Портировано из [jpcurti/ender3-v3-se-klipper-with-display](https://github.com/jpcurti/ender3-v3-se-klipper-with-display) (Последний коммит: `72e925e55`, Январь 2026)
+>
+> ---
+>
+> ### Варианты прошивки в релизах (Firmware Release Variants)
+> Автоматическая сборка релизов на GitHub предоставляет два варианта прошивки:
+> 1. **`klipper-display.bin`** — с поддержкой дисплея (включен Serial Bridge на USART2).
+> 2. **`klipper-nodisplay.bin`** — стандартная сборка Klipper без поддержки дисплея.
 
 ---
 

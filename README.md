@@ -4,8 +4,15 @@
 
 > **NOTE:** This is a merged repository specifically created to make the original Ender 3 V3 SE display work with the latest version of Klipper (from 0xD34D).
 > 
-> * **Base (Klipper):** Fork of [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) updated with upstream [Klipper3d/klipper](https://github.com/Klipper3d/klipper) (Latest commit: `b7c0329f1`, May 2026)
+> * **Base (Klipper):** Fork of [0xD34D/klipper_ender3_v3_se](https://github.com/0xD34D/klipper_ender3_v3_se) updated with upstream [Klipper3d/klipper](https://github.com/Klipper3d/klipper) (Latest commit: `c707dd192`, June 2026)
 > * **Display Mod:** Ported from [jpcurti/ender3-v3-se-klipper-with-display](https://github.com/jpcurti/ender3-v3-se-klipper-with-display) (Latest commit: `72e925e55`, January 2026)
+>
+> ---
+>
+> ### Firmware Release Variants
+> The automated GitHub release builds provide two variants of the firmware:
+> 1. **`klipper-display.bin`** - Includes display support (Serial Bridge enabled on USART2).
+> 2. **`klipper-nodisplay.bin`** - Standard Klipper build without display support.
 
 ---
 
