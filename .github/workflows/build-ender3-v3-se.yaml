@@ -22,7 +22,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y make gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi python3
 
-    - name: Configure Klipper for Ender 3 V3 SE
+    - name: Configure Klipper for Ender 3 V3 SE (With Display)
       run: |
         cat <<EOF > .config
         CONFIG_LOW_LEVEL_OPTIONS=y
@@ -36,14 +36,37 @@ jobs:
         EOF
         make olddefconfig
 
-    - name: Build firmware
-      run: make -j$(nproc)
+    - name: Build firmware (With Display)
+      run: |
+        make clean
+        make -j$(nproc)
+        mv out/klipper.bin klipper-display.bin
+
+    - name: Configure Klipper for Ender 3 V3 SE (Without Display)
+      run: |
+        cat <<EOF > .config
+        CONFIG_LOW_LEVEL_OPTIONS=y
+        CONFIG_MACH_STM32=y
+        CONFIG_MACH_STM32F103=y
+        CONFIG_STM32_FLASH_START_7000=y
+        CONFIG_STM32F103GD_DISABLE_SWD=y
+        CONFIG_STM32_SERIAL_USART1=y
+        EOF
+        make olddefconfig
+
+    - name: Build firmware (Without Display)
+      run: |
+        make clean
+        make -j$(nproc)
+        mv out/klipper.bin klipper-nodisplay.bin
 
     - name: Upload Klipper Firmware Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ender3-v3-se-klipper-firmware
-        path: out/klipper.bin
+        path: |
+          klipper-display.bin
+          klipper-nodisplay.bin
 
     - name: Prepare Release Info
       if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
@@ -62,12 +85,17 @@ jobs:
         
         **Based on commit:** ${COMMIT_HASH}
         
+        **Available Firmware Variants:**
+        - **\`klipper-display.bin\`** (With display support / С поддержкой дисплея)
+          - **Screen Mod:** Serial Bridge enabled on USART2
+        - **\`klipper-nodisplay.bin\`** (Without display support / Без поддержки дисплея)
+          - Standard Klipper configuration for Ender 3 V3 SE
+        
         **Build Configuration Parameters:**
         - **Architecture:** STM32 (STM32F103)
         - **Bootloader offset:** 28KiB
         - **GD32 fix:** Disable SWD at startup
         - **Communication interface:** Serial (on USART1 PA10/PA09)
-        - **Screen Mod:** Serial Bridge enabled on USART2
         EOF
 
     - name: Create Release
@@ -77,7 +105,9 @@ jobs:
         tag_name: ${{ env.TAG_NAME }}
         name: Firmware Build ${{ env.BUILD_DATE }}
         body_path: release_notes.md
-        files: out/klipper.bin
+        files: |
+          klipper-display.bin
+          klipper-nodisplay.bin
         make_latest: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
