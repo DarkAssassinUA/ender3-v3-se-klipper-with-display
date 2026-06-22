@@ -2,9 +2,9 @@ name: Build Ender 3 V3 SE Firmware
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
@@ -69,7 +69,7 @@ jobs:
           klipper-nodisplay.bin
 
     - name: Prepare Release Info
-      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: |
         BUILD_DATE=$(TZ='Europe/Moscow' date +'%d.%m.%Y %H:%M:%S')
         COMMIT_HASH=$(git rev-parse --short HEAD)
@@ -99,7 +99,7 @@ jobs:
         EOF
 
     - name: Create Release
-      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.TAG_NAME }}
